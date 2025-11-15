@@ -32,7 +32,6 @@ function BurgerConstructor({ data }) {
         </div>
         <div className={styles.inners}>
         {data.map((el, index) => {
-          const lastIndex = data.length - 1;
           return (
             <div className={styles.wrapper} key={el._id}>
               <div className={styles.icon}>
