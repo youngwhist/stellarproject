@@ -3,8 +3,7 @@ import styles from './app.module.css';
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
-
-const apiUrl = 'https://norma.education-services.ru/api';
+import {apiUrl} from '../../utils/constants'
 
 function App() {
   const [ingredients, setIngredients] = useState([]);
@@ -67,7 +66,7 @@ function App() {
         ) : (
           <section className={styles.wrapper}>
             <BurgerIngredients data={ingredients} />
-            <BurgerConstructor />
+            <BurgerConstructor data={ingredients} />
           </section>
         )}
       </main>
