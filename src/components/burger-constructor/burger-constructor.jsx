@@ -12,10 +12,15 @@ function BurgerConstructor({ data }) {
       .toString()
       .padStart(6, "0");
   }
+
+  function resetIndicator() {
+    setIdentifier(null)
+  }
+
   return (
     <div className={styles.container}>
       {identifier && (
-        <Modal onClose={() => setIdentifier(null)}>
+        <Modal onClose={resetIndicator}>
           <OrderDetails identifier={identifier} />
         </Modal>
       )}
@@ -32,6 +37,9 @@ function BurgerConstructor({ data }) {
         </div>
         <div className={styles.inners}>
         {data.map((el, index) => {
+          if (el.type === "bun") {
+            return null;
+          }
           return (
             <div className={styles.wrapper} key={el._id}>
               <div className={styles.icon}>

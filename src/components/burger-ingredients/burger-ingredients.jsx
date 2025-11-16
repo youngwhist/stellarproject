@@ -50,10 +50,14 @@ function BurgerIngredients(props) {
     }
   };
 
+  function resetCurrentIngredient() {
+    setCurrentIngredient(null)
+  }
+
   return (
     <div className={styles.wrapper}>
       {currentIngredient && (
-        <Modal onClose={() => setCurrentIngredient(null)}>
+        <Modal onClose={resetCurrentIngredient}>
           <IngredientDetails ingredient={currentIngredient} />
         </Modal>
       )}
