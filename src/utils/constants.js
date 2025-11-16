@@ -1,0 +1,1 @@
+export const apiUrl = 'https://norma.education-services.ru/api';

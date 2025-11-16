@@ -1,0 +1,19 @@
+/* ingredients-list.module.css */
+.wrapper {
+  max-height: 756px;
+  width: 100%;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+}
+
+.group {
+  padding-top: 40px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 24px;
+}
