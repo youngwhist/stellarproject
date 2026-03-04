@@ -1,51 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import styles from './app.module.css';
+import React, { useEffect } from "react";
+import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
-import {apiUrl} from '../../utils/constants'
+import { useDispatch, useSelector } from "react-redux";
+import { getIngredients } from "../../services/actions/ingredients";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
-  const [ingredients, setIngredients] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+
+  const { items, loading, error } = useSelector((state) => state.ingredients);
 
   useEffect(() => {
+    dispatch(getIngredients());
+
     const abortController = new AbortController();
-    
-    const getIngredients = async () => {
-      try {
-        setLoading(true);
-        setError(null);
 
-        const response = await fetch(`${apiUrl}/ingredients`, {
-          signal: abortController.signal
-        });
-
-        if (!response.ok) {
-          throw new Error(`Ошибка, статус: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (!data.success) {
-          throw new Error('Не удалось загрузить ингредиенты');
-        }
-
-        setIngredients(data.data);
-        setLoading(false);
-        setError(null);
-
-      } catch (error) {
-        if (error.name !== 'AbortError') {
-          setLoading(false);
-          setError(error.message || 'Произошла неизвестная ошибка');
-        }
-      }
-    };
-
-    getIngredients();
-    
     return () => {
       abortController.abort();
     };
@@ -64,10 +36,15 @@ function App() {
             <p className="text text_type_main-medium">{error}</p>
           </div>
         ) : (
-          <section className={styles.wrapper}>
-            <BurgerIngredients data={ingredients} />
-            <BurgerConstructor data={ingredients} />
-          </section>
+          !loading &&
+          items?.length > 0 && (
+            <section className={styles.wrapper}>
+              <DndProvider backend={HTML5Backend}>
+                <BurgerIngredients data={items || []} />
+                <BurgerConstructor data={items || []} />
+              </DndProvider>
+            </section>
+          )
         )}
       </main>
     </div>
