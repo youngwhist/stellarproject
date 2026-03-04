@@ -6,6 +6,8 @@
     align-items: center;
     position: relative;
     margin-bottom: 8px;
+    background: #131316;
+    border-radius: 8px;
 }
 
 .priceline {

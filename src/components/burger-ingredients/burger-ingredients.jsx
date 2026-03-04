@@ -4,9 +4,11 @@ import IngredientsTabs from "./ingredients-tabs/ingredients-tabs";
 import IngredientsList from "./ingredients-list/ingredients-list";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import { useDispatch, useSelector } from "react-redux";
+import { REMOVE_CURRENT_INGREDIENT, SET_CURRENT_INGREDIENT } from "../../services/actions/detail-ingredient";
 
 function BurgerIngredients(props) {
-  const [currentIngredient, setCurrentIngredient] = useState(null)
+  const { currentIngredient } = useSelector(store => store.currentIngredient) 
   const [currentTab, setCurrentTab] = useState('bun');
   const [isScrolling, setIsScrolling] = useState(false);
   
@@ -21,8 +23,10 @@ function BurgerIngredients(props) {
     return [category, ingredientsInCategory];
   }).filter(([_, ingredients]) => ingredients.length > 0);
 
+  const dispatch = useDispatch()
+
   const onIngredientClick = (ingredient) => {
-    setCurrentIngredient(ingredient)
+    dispatch({type: SET_CURRENT_INGREDIENT, payload: ingredient})
   }
 
   const scrollToSection = (sectionType) => {
@@ -51,7 +55,7 @@ function BurgerIngredients(props) {
   };
 
   function resetCurrentIngredient() {
-    setCurrentIngredient(null)
+    dispatch({type: REMOVE_CURRENT_INGREDIENT})
   }
 
   return (
